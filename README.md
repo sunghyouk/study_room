@@ -3,3 +3,6 @@
 
 ## 1. 밑바닥부터 시작하는 딥러닝
 deep_learning_from_scratch/dlfs_ch(`chapter number`).py와 같은 모양으로 업로드
+
+## 2. Microsoft에서 제공 중인 python online lecture
+MS_python_learn에 
