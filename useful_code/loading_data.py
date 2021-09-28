@@ -37,3 +37,13 @@ for row in data:
 
 print(temp)
 print(ice)
+
+# 4.
+import numpy as np
+data_sets = np.zeros((40, 21))
+
+import csv
+with open('csv 파일', 'w') as f:
+    writer = csv.writer(f)
+    for i in range(40):
+        writer.writerow(data_sets[i, :])
