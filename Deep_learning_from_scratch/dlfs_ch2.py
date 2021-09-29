@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+# encoding declared at first line
+
 # Perceptron AND gate
 # 2.3.1 Formula 2.1
 def AND(x1, x2):
@@ -50,3 +54,10 @@ def OR(x1, x2):
         return 0
     else:
         return 1
+
+# 2.5.2 XOR 게이트 구현하기
+def XOR(x1, x2):
+    s1 = NAND(x1, x2)
+    s2 = OR(x1, x2)
+    y = AND(s1, s2)
+    return y
