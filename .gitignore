@@ -127,5 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Please don't git
+echo .DS_Store >> .gitignore
 *.gz
 *.DS_Store
