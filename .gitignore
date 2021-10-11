@@ -131,3 +131,4 @@ Deep_learning_from_scratch/ch03/dataset/t10k-images-idx3-ubyte.gz
 Deep_learning_from_scratch/ch03/dataset/t10k-labels-idx1-ubyte.gz
 Deep_learning_from_scratch/ch03/dataset/train-images-idx3-ubyte.gz
 Deep_learning_from_scratch/ch03/dataset/train-labels-idx1-ubyte.gz
+.DS_Store
