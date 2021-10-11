@@ -130,5 +130,11 @@ dmypy.json
 
 # Please don't git
 echo .DS_Store >> .gitignore
-*.gz
+
+# custom ignore file
 *.DS_Store
+*.csv
+*.docx
+*.pdf
+*.xlsx
+*.gz
