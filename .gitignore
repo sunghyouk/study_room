@@ -476,3 +476,4 @@ po/*~
 
 # compressed data files
 .gz
+*.gz
