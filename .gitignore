@@ -480,5 +480,4 @@ po/*~
 Deep_learning_from_scratch/common/functions.py
 Deep_learning_from_scratch/common/gradient.py
 Deep_learning_from_scratch/ch04/dataset/mnist.py
-.gitignore
 Deep_learning_from_scratch/ch04/dataset/mnist.pkl
