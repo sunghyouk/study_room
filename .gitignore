@@ -480,5 +480,5 @@ po/*~
 
 # custom added file types
 Deep_learning_from_scratch/common/*.py
-Deep_learning_from_scratch/dataset/mnist.*
+Deep_learning_from_scratch/dataset/*.*
 *.pkl
