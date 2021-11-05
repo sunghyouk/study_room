@@ -1,11 +1,14 @@
-# coding: utf-8
-import sys, os
+# -*- coding: utf-8 -*-
+import sys
+import os
+import numpy as np
+
 sys.path.append(os.pardir)  # 부모 디렉터리의 파일을 가져올 수 있도록 설정
 from common.functions import *
 from common.gradient import numerical_gradient
 
-
 class TwoLayerNet:
+
 
     def __init__(self, input_size, hidden_size, output_size, weight_init_std=0.01):
         # 가중치 초기화
