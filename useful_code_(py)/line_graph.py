@@ -1,11 +1,12 @@
+# Line graph
+# 외부 모듈 불러오기
+import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
+
 # Monday ~ Sunday list
 a = [242, 256, 237, 223, 263, 81, 46]
 print('A = ', a)
 
-# Line graph
-# 외부 모듈 불러오기 
-import matplotlib.pyplot as plt
-from matplotlib import font_manager, rc
 font_name = font_manager.FontProperties(fname='font 경로/font file').get_name()
 rc('font', family=font_name)
 
