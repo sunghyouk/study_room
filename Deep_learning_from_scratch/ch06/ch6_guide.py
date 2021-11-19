@@ -1,4 +1,7 @@
 # optimizer module 구현
+from Deep_learning_from_scratch.common.util import shuffle_dataset
+
+
 class SGD:
     def __init__(self, lr=0.01):
         self.lr = lr
