@@ -4,9 +4,11 @@
 
 ## 1. 밑바닥부터 시작하는 딥러닝
 
+이 디렉토리의 모든 것은 [밑바닥부터 시작하는 딥러닝](https://github.com/WegraLee/deep-learning-from-scratch)에 구현되어 있어서 `fork`함.  
+
 parent directory를 찾아 common module의 함수를 불러 오는 코드가 있어서 clone한 github와 같은 모양으로 directory를 구성함  
-common, dataset, ch00<number> directory를 만들어 common 모듈 내에 복사한 함수 집합을 넣고,  
-ch00<number>에 공부하면서 만든 함수와 코드를 작성함.  
+common, dataset, ch_number directory를 만들어 common 모듈 내에 복사한 함수 집합을 넣고,  
+ch_number에 공부하면서 만든 함수와 코드를 작성함.  
 
 deep_learning_from_scratch/dlfs_ch(`chapter number`).py와 같은 모양으로 업로드함
 
