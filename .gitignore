@@ -482,3 +482,5 @@ po/*~
 Deep_learning_from_scratch/common/*.py
 Deep_learning_from_scratch/dataset/*.*
 *.pkl
+
+*.csv
