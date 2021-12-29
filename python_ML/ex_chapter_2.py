@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# 이런 식으로 같은 디렉토리 내에 다른 파일에 만들어 놓은 클래스 불러오는구나!
+import plot_decision_regions as pltreg
+from adaline import AdalineGD
 from perceptron import Perceptron
 
 s = os.path.join('https://archive.ics.uci.edu', 'ml',
@@ -47,4 +48,30 @@ plt.plot(range(1, len(ppn.errors_)+1),
          ppn.errors_, marker='o')
 plt.xlabel('Epochs')
 plt.ylabel('Number of updates')
+plt.show()
+
+# 결정 영역 시각화
+pltreg.plot_decision_regions(X, y, classifier=ppn)
+plt.xlabel('Sepal length [cm]')
+plt.ylabel('Petal length [cm]')
+plt.legend(loc='upper left')
+plt.show()
+
+# eta = 0.1 or 0.0001
+# 에포크 횟수 대비 비용 그래프 그려 보기
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
+
+ada1 = AdalineGD(n_iter=10, eta=0.01).fit(X, y)
+ax[0].plot(range(1, len(ada1.cost_) + 1),
+           np.log10(ada1.cost_), marker='o')
+ax[0].set_xlabel('Epochs')
+ax[0].set_ylabel('log(Sum-squared-error)')
+ax[0].set_title('Adaline-Learning rate 0.01')
+
+ada2 = AdalineGD(n_iter=10, eta=0.0001).fit(X, y)
+ax[1].plot(range(1, len(ada2.cost_) + 1),
+           ada2.cost_, marker='o')
+ax[1].set_xlabel('Epochs')
+ax[1].set_ylabel('Sum-squared-error')
+ax[1].set_title('Adaline-learning rate 0.0001')
 plt.show()
