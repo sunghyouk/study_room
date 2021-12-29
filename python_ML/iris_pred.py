@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 # 이런 식으로 같은 디렉토리 내에 다른 파일에 만들어 놓은 클래스 불러오는구나!
-from python_ML.perceptron import Perceptron
+from perceptron import Perceptron
 
 s = os.path.join('https://archive.ics.uci.edu', 'ml',
                  'machine-learning-databases',
