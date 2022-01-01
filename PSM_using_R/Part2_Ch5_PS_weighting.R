@@ -143,6 +143,7 @@ summary_est_att <- tibble(
   UL95 <- quantile(EST_att, p = c(0.975)),
   estimand = "ATT", model = "Propensity score weighting"
 )
+
 # ATC 추정
 set.seed(1234)  # 동일한 결과를 얻고자 한다면 설정
 z_model <- zelig(y ~ treat + V1 + V2 + V3, data = mydata, model = "ls",
@@ -158,6 +159,7 @@ summary_est_atc <- tibble(
   UL95 <- quantile(EST_atc, p = c(0.975)),
   estimand = "ATC", model = "Propensity score weighting"
 )
+
 # 3가지 효과추정치(estimands) 통합
 PSW_estimands <- bind_rows(
   summary_est_att, summary_est_atc, summary_est_ate
@@ -178,7 +180,7 @@ ggsave("Part2_ch5_PSW_estimands.png", width = 10, height = 10, unit = "cm")
 
 # 민감도 분석(Carnegie, Harada, & Hill, 2006)
 library("treatSens")
-SA_PSW_ATE = treatSens(y ~ treat + V1 + V2 + V3,
+SA_PSW_ATE <- treatSens(y ~ treat + V1 + V2 + V3,
                        trt.family = binomial(link = "probit"),
                       # 이분변수인 경우 현재 유일하게 제공되는 옵션
                        grid.dim = c(7, 5),   # zeta_T를 7개, zeta_Y를 5개(3번째 결과물)
