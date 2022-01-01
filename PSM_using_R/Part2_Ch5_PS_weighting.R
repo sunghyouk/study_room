@@ -178,31 +178,32 @@ ggsave("Part2_ch5_PSW_estimands.png", width = 10, height = 10, unit = "cm")
 
 # 민감도 분석(Carnegie, Harada, & Hill, 2006)
 library("treatSens")
-SA_PSW_ATE = treatSens(y~treat+V1+V2+V3,
-                       trt.family=binomial(link='probit'), #이분변수인 경우 현재 유일하게 제공되는 옵션 
-                       grid.dim=c(7,5),   # zeta_T를 7개, zeta_Y를 5개(3번째 결과물)
-                       nsim=20,           # 재표집 횟수 
-                       standardize = FALSE,   # 누락변수의 효과는 비표준화 회귀계수로 
-                       data=mydata,weights=mydata$Wate)  # IPTW 부여 
+SA_PSW_ATE = treatSens(y ~ treat + V1 + V2 + V3,
+                       trt.family = binomial(link = "probit"),
+                      # 이분변수인 경우 현재 유일하게 제공되는 옵션
+                       grid.dim = c(7, 5),   # zeta_T를 7개, zeta_Y를 5개(3번째 결과물)
+                       nsim = 20,           # 재표집 횟수
+                       standardize = FALSE,   # 누락변수의 효과는 비표준화 회귀계수로
+                       data = mydata, weights = mydata$Wate)  # IPTW 부여
 summary(SA_PSW_ATE)
-pnorm(0,0,1)-pnorm(-2,0,1) # zeta_T (zeta_Z) 해석 
+pnorm(0, 0, 1) - pnorm(-2, 0, 1) # zeta_T (zeta_Z) 해석
 
-SA_PSW_ATT = treatSens(y~treat+V1+V2+V3,
-                       trt.family=binomial(link='probit'),
-                       grid.dim=c(7,5),nsim=20,
-                       standardize = FALSE, 
-                       data=mydata,
-                       weights=mydata$Watt)
+SA_PSW_ATT <- treatSens(y ~ treat + V1 + V2 + V3,
+                       trt.family = binomial(link = "probit"),
+                       grid.dim = c(7, 5), nsim = 20,
+                       standardize = FALSE,
+                       data = mydata,
+                       weights = mydata$Watt)
 summary(SA_PSW_ATT)
 
-SA_PSW_ATC = treatSens(y~treat+V1+V2+V3,
-                       trt.family=binomial(link='probit'),
-                       grid.dim=c(7,5),nsim=20,
-                       standardize = FALSE, 
-                       data=mydata,
-                       weights=mydata$Watc)
+SA_PSW_ATC <- treatSens(y ~ treat + V1 + V2 + V3,
+                       trt.family = binomial(link = "probit"),
+                       grid.dim = c(7, 5), nsim = 20,
+                       standardize = FALSE,
+                       data = mydata,
+                       weights = mydata$Watc)
 summary(SA_PSW_ATC)
 
-png("Part2_ch5_sensPlot.png",res=600,height=10,width=15,units="cm")
+png("Part2_ch5_sensPlot.png", res = 600, height = 10, width = 15, units = "cm")
 sensPlot(SA_PSW_ATC)
 dev.off()
