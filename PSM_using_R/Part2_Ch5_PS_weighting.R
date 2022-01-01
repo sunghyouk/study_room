@@ -3,10 +3,10 @@
 #################################################################
 ## 제2부 제5장 성향점수가중(propensity score weighting, PSW) 기법
 #################################################################
-library("tidyverse")   #데이터관리 및 변수사전처리
+library("tidyverse")   # 데이터관리 및 변수사전처리
 summarize <- dplyr::summarize   # dplyr의 summarize 함수를 이용
 library("Hmisc")       # 가중평균 및 가중분산 계산
-library("Zelig")   #비모수접근 95% CI 계산
+library("Zelig")   # 비모수접근 95% CI 계산
 # 2020년 현재 treatSens 는 CRAN에서 관리하지 않음.
 # 아래와 같은 방식으로 깃허브를 통해 인스톨한 후 구동
 
@@ -165,7 +165,7 @@ PSW_estimands <- bind_rows(
 PSW_estimands
 saveRDS(PSW_estimands, "PSW_estimands.RData")
 
-# 시각화
+# 시각화 - 제대로 출력 안됨
 PSW_estimands %>%
   ggplot(aes(x = estimand, y = PEst)) +
   geom_point(size = 3) +
