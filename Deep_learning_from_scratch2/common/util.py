@@ -1,8 +1,10 @@
 # coding: utf-8
-import sys
-sys.path.append('..')
 import os
+import sys
+
 from common.np import *
+
+sys.path.append('..')
 
 
 def preprocess(text):
