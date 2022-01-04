@@ -5,10 +5,11 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib import markers
 
-import plot_decision_regions as pltreg
-from adaline import AdalineGD
-from perceptron import Perceptron
+import python_ML.plot_decision_regions as pltreg
+from python_ML.adaline import AdalineGD
+from python_ML.perceptron import Perceptron
 
 s = os.path.join('https://archive.ics.uci.edu', 'ml',
                  'machine-learning-databases',
@@ -74,4 +75,27 @@ ax[1].plot(range(1, len(ada2.cost_) + 1),
 ax[1].set_xlabel('Epochs')
 ax[1].set_ylabel('Sum-squared-error')
 ax[1].set_title('Adaline-learning rate 0.0001')
+plt.show()
+
+# 표준화
+X_std = np.copy(X)
+X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
+X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
+
+# Adaline 모델 훈련 / 학습률 = 0.01, 목적: 몇번의 에포크만에 수렴하는지?
+ada = AdalineGD(n_iter=15, eta=0.01)
+ada.fit(X_std, y)
+
+pltreg.plot_decision_regions(X_std, y, classifier=ada)
+plt.title('Adaline - Gradient descent')
+plt.xlabel('sepal length [standardized]')
+plt.ylabel('petal length [standardized]')
+plt.legend(loc='upper left')
+plt.tight_layout()
+plt.show()
+
+plt.plot(range(1, len(ada.cost_) + 1), ada.cost_, marker='o')
+plt.xlabel('Epochs')
+plt.ylabel('Sum-squarred-error')
+plt.tight_layout()
 plt.show()
