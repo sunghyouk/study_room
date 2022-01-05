@@ -1,16 +1,18 @@
 # iris data 불러오기
-
 import os
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib import markers
+from rich import pretty
 
 import python_ML.plot_decision_regions as pltreg
 from python_ML.adaline import AdalineGD
 from python_ML.adalinesgd import AdalineSGD
 from python_ML.perceptron import Perceptron
+
+pretty.install()
 
 s = os.path.join('https://archive.ics.uci.edu', 'ml',
                  'machine-learning-databases',
