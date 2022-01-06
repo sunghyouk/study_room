@@ -1,8 +1,8 @@
 # coding: utf-8
 import sys
-sys.path.append('..')
-from common.util import preprocess, create_co_matrix, most_similar
 
+sys.path.append('..')
+from common.util import create_co_matrix, most_similar, preprocess
 
 text = 'You say goodbye and I say hello.'
 corpus, word_to_id, id_to_word = preprocess(text)

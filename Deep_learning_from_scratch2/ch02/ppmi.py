@@ -1,9 +1,9 @@
 # coding: utf-8
 import sys
+
 sys.path.append('..')
 import numpy as np
-from common.util import preprocess, create_co_matrix, cos_similarity, ppmi
-
+from common.util import cos_similarity, create_co_matrix, ppmi, preprocess
 
 text = 'You say goodbye and I say hello.'
 corpus, word_to_id, id_to_word = preprocess(text)
@@ -17,4 +17,3 @@ print(C)
 print('-'*50)
 print('PPMI')
 print(W)
-

@@ -1,10 +1,10 @@
 # coding: utf-8
 import sys
+
 sys.path.append('..')
 import numpy as np
-from common.util import most_similar, create_co_matrix, ppmi
+from common.util import create_co_matrix, most_similar, ppmi
 from dataset import ptb
-
 
 window_size = 2
 wordvec_size = 100
