@@ -3,7 +3,8 @@ import numpy as np
 from matplotlib.colors import ListedColormap
 
 
-def plot_decision_regions(X, y, classifier, resolution=0.02):
+def plot_decision_regions(X, y, classifier, test_idx=None,
+                          resolution=0.02):
 
     # 마커와 칼라맵을 설정
     markers = ('s', 'x', 'o', '^', 'v')
@@ -30,3 +31,12 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
                     marker=markers[idx],
                     label=cl,
                     edgecolor='black')
+
+    # 테스트 샘플을 부각하여 그리기
+    if test_idx:
+        X_test, y_test = X[test_idx, :], y[test_idx]
+
+        plt.scatter(X_test[:, 0], X_test[:, 1],
+                    facecolors='none', edgecolors='black', alpha=1.0,
+                    linewidth=1, marker='o',
+                    s=100, label='test set')
