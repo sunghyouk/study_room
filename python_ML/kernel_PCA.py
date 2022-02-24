@@ -19,8 +19,10 @@ def rbf_kernel_pca(X, gamma, n_components):
         
     반환값
     ----------
-    X_pc: {넘파이 ndarray}, shape = [n_samples, k_features]
+    alphas: {넘파이 ndarray}, shape = [n_samples, k_features]
         투영된 데이터셋
+        
+    lambdas: list
         
     """
     # M * N 차원의 데이터셋에서 샘플 간의 유클리디안 거리의 제곱을 계산
@@ -43,7 +45,10 @@ def rbf_kernel_pca(X, gamma, n_components):
     eigvals, eigvecs = eigvals[::-1], eigvecs[:, ::-1]
     
     # 최상위 k개의 고유 벡터를 선택 (투영 결과)
-    X_pc = np.column_stack([eigvecs[:, i]
-                            for i in range(n_components)])
+    alphas = np.column_stack([eigvecs[:, i]
+                              for i in range(n_components)])
     
-    return X_pc
+    # 고유 벡터에 상응하는 고유값을 선택
+    lambdas = [eigvals[i] for i in range(n_components)]
+    
+    return alphas, lambdas
