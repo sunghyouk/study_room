@@ -480,6 +480,7 @@ po/*~
 
 # custom added file types
 Deep_learning_from_scratch*/dataset/*.txt
+*.npy
 *.pkl
 
 *.csv
