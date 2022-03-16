@@ -479,8 +479,7 @@ po/*~
 *.gz
 
 # custom added file types
-Deep_learning_from_scratch*/common/*.py
-Deep_learning_from_scratch*/dataset/*.*
+Deep_learning_from_scratch*/dataset/*.txt
 *.pkl
 
 *.csv
