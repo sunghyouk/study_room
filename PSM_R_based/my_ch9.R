@@ -8,7 +8,7 @@ library("optmatch")
 library("Zelig")
 library("MatchIt")
 library("cobalt")
-# Can't install: library("treatSens")
+library("treatSens")
 library("sensitivitymw")
 library("sensitivityfull")
 

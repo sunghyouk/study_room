@@ -1,5 +1,25 @@
 library(Zelig)
 
+# 균형성 점검을 위한 이용자함수 설정
+balance_check_PSW <- function(var_treat, var_cov, var_wgt) {
+  std_var_cov <- (var_cov - mean(var_cov)) / sd(var_cov)
+  simple_M1 <- mean(std_var_cov[var_treat == 1])
+  simple_M0 <- mean(std_var_cov[var_treat == 0])
+  simple_V1 <- var(std_var_cov[var_treat == 1])
+  simple_V0 <- var(std_var_cov[var_treat == 0])
+  wgted_M1 <- Hmisc::wtd.mean(x = std_var_cov[var_treat == 1], weights = var_wgt[var_treat == 1])
+  wgted_M0 <- Hmisc::wtd.mean(x = std_var_cov[var_treat == 0], weights = var_wgt[var_treat == 0])
+  wgted_V1 <- Hmisc::wtd.var(x = std_var_cov[var_treat == 1], weights = var_wgt[var_treat == 1])
+  wgted_V0 <- Hmisc::wtd.var(x = std_var_cov[var_treat == 0], weights = var_wgt[var_treat == 0])
+  B_wgt_Mdiff <- simple_M1 - simple_M0
+  B_wgt_Vratio <- simple_V1 / simple_V0
+  A_wgt_Mdiff <- wgted_M1 - wgted_M0
+  A_wgt_Vratio <- wgted_V1 / wgted_V0
+  balance_index <- tibble(B_wgt_Mdiff, A_wgt_Mdiff,
+                         B_wgt_Vratio, A_wgt_Vratio)
+  balance_index
+}
+
 # ATT추정을 위한 이용자정의 함수
 SUMMARY_EST_ATT <- function(myformula, matched_data, n_sim, model_name) {
   # 2단계: 모형추정
