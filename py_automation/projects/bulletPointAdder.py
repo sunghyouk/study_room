@@ -15,7 +15,7 @@ text = '\n'.join(lines)
 
 pyperclip.copy(text)
 
-# TODO: 이 script로 할 수 있는 일
+# NOTE: 이 script로 할 수 있는 일
 """
 줄의 끝부분에 있는 공백을 제거,
 텍스트를 대문자 또는 소문자로 변환
