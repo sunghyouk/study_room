@@ -22,4 +22,4 @@ print(isPhoneNumber('415-555-4242'))
 print('Is Yeoboseyo a phone number?')
 print(isPhoneNumber('Yeoboseyo'))
 
-# TODO: 길이가 더 긴 문자열이 전화번호인지 여부를 알아야 한다면, 아래 코드 추가
+# TODO: 길이가 더 긴 문자열에서 전화번호인지 여부를 알아야 한다면, 아래 코드 추가
