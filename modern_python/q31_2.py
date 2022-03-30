@@ -1,4 +1,3 @@
-
 class Rectangle(object):
     def __init__(self, length, width):
         self.length = length
