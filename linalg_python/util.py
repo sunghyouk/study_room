@@ -215,6 +215,114 @@ def norm(a):
     return res
 
 
+# 벡터의 외적
+def outer_product(a, b):
+    """
+    벡터의 외적
+    입력값: 외적할 벡터 리스트 a, b
+    출력값: 벡터 a, b의 외적 결과 res
+    """
+    res = []
+    n1 = len(a)
+    n2 = len(b)
+    for i in range(0, n1):
+        row = []
+        for j in range(0, n2):
+            val = a[i] * b[j]
+            row.append(val)
+        res.append(row)
+    return res
+
+
+# 행렬의 뺄셈
+def subtract(A, B):
+    """
+    행렬의 뺄셈
+    입력값: 행렬의 뺄셈을 수행할 행렬 A, B
+    출력값: 행렬 A와 행렬 B의 뺄셈 결과인 행렬 C
+    """
+
+    n = len(A)
+    p = len(A[0])
+
+    res = []
+    for i in range(0, n):
+        row = []
+        for j in range(0, p):
+            val = A[i][j] - B[i][j]
+            row.append(val)
+        res.append(row)
+    return res
+
+
+def identity(n):
+    """
+    단위 행렬 생성
+    입력값: 단위 행렬의 크기 n
+    출력값: n*n 단위 행렬 I
+    """
+
+    I = []
+    for i in range(0, n):
+        row = []
+        for j in range(0, n):
+            if i == j:
+                row.append(1)
+            else:
+                row.append(0)
+        I.append(row)
+    return I
+
+
+def v_add(u, v):
+    """
+    벡터의 덧셈
+    입력값: 더하고자 하는 벡터 u, v
+    출력값: 벡터 u, v의 덧셈 결과 w
+    """
+    n = len(u)
+    w = []
+
+    for i in range(0, n):
+        val = u[i] + v[i]
+        w.append(val)
+
+    return w
+
+
+def sign(a):
+    """
+    스칼라 a의 부호
+    입력값: 스칼라 a
+    출력값: 스칼라 a가 a>=0이면 1, a<0이면 -1 출력
+    """
+
+    res = 1
+    if a < 0:
+        res = -1
+    return res
+
+
+def householder(v):
+    """
+    하우스홀더 행렬
+    입력값: 하우스홀더 행렬을 생성할 리스트 v
+    출력값: 리스트 v를 이용해 생성한 하우스홀더 행렬 H
+    """
+    n = len(v)
+    outer_mat = outer_product(v, v)
+    inner_val = inner_product(v, v)
+    V = []
+    for i in range(0, n):
+        row = []
+        for j in range(0, n):
+            val = (2/inner_val)*outer_mat[i][j]
+            row.append(val)
+        V.append(row)
+    H = subtract(identity(n), V)
+    return H
+
+
 def normalize(a):
     """
     벡터 a의 normalization
@@ -287,3 +395,27 @@ def qr_gram(A):
         R.append(r)
 
     return Q, R
+
+
+# 행렬 곱
+def matmul(A, B):
+    """
+    행렬의 행렬 곱
+    입력값: 행렬 곱을 수행할 행렬 A, B
+    출력값: 행렬 A와 행렬 B의 행렬 곱 결과인 행렬 res
+    """
+
+    n = len(A)
+    p1 = len(A[0])
+    p2 = len(B[0])
+
+    res = []
+    for i in range(0, n):
+        row = []
+        for j in range(0, p2):
+            val = 0
+            for k in range(0, p1):
+                val += A[i][k] * B[k][j]
+            row.append(val)
+        res.append(row)
+    return res
