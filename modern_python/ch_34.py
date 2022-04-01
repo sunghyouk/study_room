@@ -33,6 +33,7 @@ class Player(object):
         """플레이어 손에 있는 카드 개수를 반환한다"""
         return len(self.hand)
 
+
 # Card deck 구현하기
 class CardDeck(object):
     """스페이드, 하트, 다이아몬드, 클럽의 2부터 9까지 구성된 덱"""
@@ -71,6 +72,7 @@ class CardDeck(object):
             return card1
         else:
             return card2
+
 
 # 플레이어와 카드덱 초기화하기
 name1 = input("이름을 입력해 주세요. 플레이어 1: ")
