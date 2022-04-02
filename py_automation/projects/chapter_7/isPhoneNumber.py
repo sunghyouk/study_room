@@ -17,9 +17,10 @@ def isPhoneNumber(text):
     return True
 
 
-print('Is 415-555-4242 a phone number?')
-print(isPhoneNumber('415-555-4242'))
-print('Is Yeoboseyo a phone number?')
-print(isPhoneNumber('Yeoboseyo'))
-
-# TODO: 길이가 더 긴 문자열에서 전화번호인지 여부를 알아야 한다면, 아래 코드 추가
+message = 'Call me at 415-555-1011 tomorrow. 415-555-9999 is my office'
+for i in range(len(message)):
+    chunk = message[i:i+12]
+    if isPhoneNumber(chunk):
+        print('Phone number found: ' + chunk)
+print('Done')
+# NOTE: 길이가 더 긴 문자열에서 전화번호인지 여부를 알아야 한다면, 코드 수정
