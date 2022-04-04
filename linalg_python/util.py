@@ -172,8 +172,8 @@ def inv(A):
             M = []
             for k in idx_r:
                 row_M = []
-                for l in idx_c:
-                    val = X[k][l]
+                for lc in idx_c:
+                    val = X[k][lc]
                     row_M.append(val)
                 M.append(row_M)
             Mij = det_rec(M)
@@ -262,7 +262,7 @@ def identity(n):
     출력값: n*n 단위 행렬 I
     """
 
-    I = []
+    Iden = []
     for i in range(0, n):
         row = []
         for j in range(0, n):
@@ -270,8 +270,8 @@ def identity(n):
                 row.append(1)
             else:
                 row.append(0)
-        I.append(row)
-    return I
+        Iden.append(row)
+    return Iden
 
 
 def v_add(u, v):
@@ -500,3 +500,22 @@ def qr_householder(A):
     R = matmul(R, A)
 
     return Q, R
+
+
+def eig_qr(A):
+    """
+    행렬 A가 대칭 행렬이어야만 사용할 수 있음
+    QR분해를 이용한 고유값, 고유 벡터 구하기
+    입력값: 고유값, 고유 벡터를 구하고자 하는 행렬 A
+    출력값: E = 고유값, V = 고유 벡터
+    """
+
+    n = len(A)
+    E = deepcopy(A)
+    V = identity(n)
+    for i in range(0, 30):
+        Q, R = qr_gram(E)
+        E = matmul(R, Q)
+        V = matmul(V, Q)
+
+    return E, V
