@@ -519,3 +519,30 @@ def eig_qr(A):
         V = matmul(V, Q)
 
     return E, V
+
+
+def svd(A):
+    """
+    svd를 이용한 고유값, 고유 벡터 구하기
+    입력값: 고유값, 고유 벡터를 구하고자 하는 행렬 A
+    출력값: U = 고유 벡터, S = 특이값, Vt = AtA의 고유 벡터
+    """
+
+    import numpy as np
+
+    At = transpose(A)
+    AtA = matmul(At, A)
+    E, V = eig_qr(AtA)
+    n = len(AtA)
+    for i in range(0, n):
+        E[i][i] = E[i][i] ** 0.5
+    S = np.diag(E)
+    Vt = transpose(V)
+
+    AV = matmul(A, V)
+    AVt = transpose(AV)
+    Ut = []
+    for vector in AVt:
+        Ut.append(normalize(vector))
+    U = transpose(Ut)
+    return U, S, Vt
