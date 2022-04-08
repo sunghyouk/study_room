@@ -1,4 +1,4 @@
-import operator
+# import operator
 
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin, clone
@@ -128,12 +128,13 @@ class MajorityVoteClassifier(BaseEstimator, ClassifierMixin):
         return avg_proba
 
     def get_params(self, deep=True):
+        """GridSearch를 위해 분류기의 매개변수 이름을 반환"""
         if not deep:
             return super(MajorityVoteClassifier,
                          self).get_params(deep=False)
         else:
             out = self.named_classifiers.copy()
-            for name, step in six.iteritems(self.named_classifiers):
-                for key, value in six.iteritems(step.get_params(deep=True)):
+            for name, step in self.named_classifiers.items():
+                for key, value in step.get_params(deep=True).items():
                     out['%s__%s' % (name, key)] = value
             return out
