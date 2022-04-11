@@ -14,7 +14,14 @@ phoneRegex = re.compile(r'''(
     (\s*(ext|x|ext.)\s*(\d{2,5}))? # 내선 번호
 )''', re.VERBOSE)
 
-# TODO: 메일 주소를 위한 정규 표현식
+# 메일 주소를 위한 정규 표현식
+
+emailRegex = re.compile(r'''(
+    [a-zA-Z0-9._%+-]+ # 사용자 이름
+    @ # @ 기호
+    [a-zA-Z0-9.-] # 도메인 이름
+    (\.[a-zA-Z]{2,4}) # .com, .net, .org 등 최상위 도메인
+)''', re.VERBOSE)
 
 # TODO: 클립 보드의 텍스트에서 패턴이 일치하는 것 찾기
 
