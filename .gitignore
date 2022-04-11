@@ -484,3 +484,4 @@ Deep_learning_from_scratch*/dataset/*.txt
 *.pkl
 
 *.csv
+python_ML/aclImdb/*.*
