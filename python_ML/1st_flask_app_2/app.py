@@ -15,7 +15,7 @@ def index():
     return render_template('first_app.html', form=form)
 
 
-@app.rout('/hello', methods=['POST'])
+@app.route('/hello', methods=['POST'])
 def hello():
     form = HelloForm(request.form)
     if request.method == 'POST' and form.validate():
