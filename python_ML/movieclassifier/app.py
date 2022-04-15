@@ -1,6 +1,7 @@
 import os
 import pickle
 import sqlite3
+from crypt import methods
 
 import numpy as np
 from flask import Flask, render_template, request
@@ -8,11 +9,6 @@ from wtforms import Form, TextAreaField, validators
 
 from update import update_model
 from vectorizer import vect
-
-if __name__ == '__main__':
-    clf = update_model(db_path=db,
-                       model=clf,
-                       batch_size=10000)
 
 app = Flask(__name__)
 
@@ -72,7 +68,7 @@ def results():
     return render_template('reviewform.html', form=form)
 
 
-@app.route('/thanks', method=['POST'])
+@app.route('/thanks', methods=['POST'])
 def feedback():
     feedback = request.form['feedback_button']
     review = request.form['review']
@@ -88,4 +84,7 @@ def feedback():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    clf = update_model(db_path=db,
+                       model=clf,
+                       batch_size=10000)
+    app.run(debug=False)
