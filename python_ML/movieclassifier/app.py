@@ -6,7 +6,13 @@ import numpy as np
 from flask import Flask, render_template, request
 from wtforms import Form, TextAreaField, validators
 
+from update import update_model
 from vectorizer import vect
+
+if __name__ == '__main__':
+    clf = update_model(db_path=db,
+                       model=clf,
+                       batch_size=10000)
 
 app = Flask(__name__)
 
