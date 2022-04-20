@@ -1,40 +1,40 @@
-# USAGE: from neuralnet import NeuralNetMLP
-
 import sys
 
 import numpy as np
 
 
 class NeuralNetMLP(object):
-    """
-    피드포워드 신경망/다층 퍼셉트론 분류기
-    
-    매개변수
-    ----------
+    """ Feedforward neural network / Multi-layer perceptron classifier.
+
+    Parameters
+    ------------
     n_hidden : int (default: 30)
-        은닉 유닛 개수
+        Number of hidden units.
     l2 : float (default: 0.)
-        L2 규제의 람다 값
-        l2=0이면 규제 없음 (default)
+        Lambda value for L2-regularization.
+        No regularization if l2=0. (default)
     epochs : int (default: 100)
-        훈련 데이터셋을 반복할 횟수
+        Number of passes over the training set.
     eta : float (default: 0.001)
-        학습률
+        Learning rate.
     shuffle : bool (default: True)
-        에포크마다 훈련 데이터셋을 섞을지 여부
-        True면 데이터를 섞어 순서를 바꿉니다.
+        Shuffles training data every epoch if True to prevent circles.
     minibatch_size : int (default: 1)
-        미니 배치의 훈련 샘플 개수
+        Number of training examples per minibatch.
     seed : int (default: None)
-        가중치와 데이터 셔플링을 위한 난수 초기값
-        
-    속성
-    ----------
+        Random seed for initializing weights and shuffling.
+
+    Attributes
+    -----------
     eval_ : dict
-        훈련 에포크마다 비용, 훈련 정확도, 검증 정확도를 수집하기 위한 딕셔너리
+      Dictionary collecting the cost, training accuracy,
+      and validation accuracy for each epoch during training.
+
     """
-    
-    def __init__(self, n_hidden=30, l2=0, epochs=100, eta=0.001, shuffle=True, minibatch_size=1, seed=None):
+    def __init__(self, n_hidden=30,
+                 l2=0., epochs=100, eta=0.001,
+                 shuffle=True, minibatch_size=1, seed=None):
+
         self.random = np.random.RandomState(seed)
         self.n_hidden = n_hidden
         self.l2 = l2
@@ -44,115 +44,228 @@ class NeuralNetMLP(object):
         self.minibatch_size = minibatch_size
 
     def _onehot(self, y, n_classes):
-        """레이블을 원-핫 방식으로 인코딩합니다
-        
-        매개변수
-        ----------
-        y : 배열, 크기 = [n_samples]
-            타깃 값
-            
-        반환값
-        ----------
-        onehot : 배열, 크기 = (n_samples, n_labels)
+        """Encode labels into one-hot representation
+
+        Parameters
+        ------------
+        y : array, shape = [n_examples]
+            Target values.
+        n_classes : int
+            Number of classes
+
+        Returns
+        -----------
+        onehot : array, shape = (n_examples, n_labels)
+
         """
-        
         onehot = np.zeros((n_classes, y.shape[0]))
         for idx, val in enumerate(y.astype(int)):
             onehot[val, idx] = 1.
         return onehot.T
-    
+
     def _sigmoid(self, z):
-        """로지스틱 함수 (시그모이드) 계산"""
+        """Compute logistic function (sigmoid)"""
         return 1. / (1. + np.exp(-np.clip(z, -250, 250)))
-    
+
     def _forward(self, X):
-        """정방향 계산을 수행"""
-        
-        # 단계 1: 은닉층의 최종 입력
-        # Pseudocode) [n_samples, n_features] dot [n_features, n_hidden]
-        # Pseudocode) -> [n_samples, n_hidden]
+        """Compute forward propagation step"""
+
+        # step 1: net input of hidden layer
+        # [n_examples, n_features] dot [n_features, n_hidden]
+        # -> [n_examples, n_hidden]
         z_h = np.dot(X, self.w_h) + self.b_h
-        
-        # 단계 2: 은닉층의 활성화 출력
+
+        # step 2: activation of hidden layer
         a_h = self._sigmoid(z_h)
-        
-        # 단계 3: 출력층의 최종 입력
-        # Pseudocode) [n_samples, n_hidden] dot [n_hidden, n_classlabels]
-        # Pseudocode) -> [n_samples, n_classlabels]
+
+        # step 3: net input of output layer
+        # [n_examples, n_hidden] dot [n_hidden, n_classlabels]
+        # -> [n_examples, n_classlabels]
+
         z_out = np.dot(a_h, self.w_out) + self.b_out
-        
-        # 단계 4: 출력층의 활성화 출력
+
+        # step 4: activation output layer
         a_out = self._sigmoid(z_out)
-        
+
         return z_h, a_h, z_out, a_out
-    
+
     def _compute_cost(self, y_enc, output):
-        """
-        비용 함수를 계산합니다.
-        
-        매개변수
+        """Compute cost function.
+
+        Parameters
         ----------
-        y_enc : 배열, 크기 = (n_samples, n_labels)
-            원-핫 인코딩된 클래스 레이블
-        output : 배열, 크기 = [n_samples, n_output_units]
-            출력층의 활성화 출력 (정방향 계산)
-        
-        반환값
-        ----------
+        y_enc : array, shape = (n_examples, n_labels)
+            one-hot encoded class labels.
+        output : array, shape = [n_examples, n_output_units]
+            Activation of the output layer (forward propagation)
+
+        Returns
+        ---------
         cost : float
-            규제가 포함된 비용
+            Regularized cost
+
         """
         L2_term = (self.l2 *
                    (np.sum(self.w_h ** 2.) +
                     np.sum(self.w_out ** 2.)))
-        
+
         term1 = -y_enc * (np.log(output))
-        term2 = (1. - y.enc) * np.log(1. - output)
+        term2 = (1. - y_enc) * np.log(1. - output)
         cost = np.sum(term1 - term2) + L2_term
+
+        # If you are applying this cost function to other
+        # datasets where activation
+        # values maybe become more extreme (closer to zero or 1)
+        # you may encounter "ZeroDivisionError"s due to numerical
+        # instabilities in Python & NumPy for the current implementation.
+        # I.e., the code tries to evaluate log(0), which is undefined.
+        # To address this issue, you could add a small constant to the
+        # activation values that are passed to the log function.
+        #
+        # For example:
+        #
+        # term1 = -y_enc * (np.log(output + 1e-5))
+        # term2 = (1. - y_enc) * np.log(1. - output + 1e-5)
+
         return cost
-    
+
     def predict(self, X):
-        """
-        클래스 레이블을 예측합니다.
-        
-        매개변수
+        """Predict class labels
+
+        Parameters
+        -----------
+        X : array, shape = [n_examples, n_features]
+            Input layer with original features.
+
+        Returns:
         ----------
-        X : 배열, 크기 = [n_samples, n_features]
-            원본 특성의 입력층
-            
-        반환값
-        ----------
-        y_pred : 배열, 크기 = [n_samples]
-            예측된 클래스 레이블
+        y_pred : array, shape = [n_examples]
+            Predicted class labels.
+
         """
         z_h, a_h, z_out, a_out = self._forward(X)
         y_pred = np.argmax(z_out, axis=1)
         return y_pred
-    
+
     def fit(self, X_train, y_train, X_valid, y_valid):
-        """훈련 데이터에서 가중치를 학습합니다.
-        
-        매개변수
-        ----------
-        X_train : 배열, 크기 = [n_samples, n_features]
-            원본 특성의 입력층
-        y_train : 배열, 크기 = [n_samples]
-            타깃 클래스 레이블
-        X_valid : 배열, 크기 = [n_samples, n_features]
-            훈련하는 동안 검증에 사용한 샘플 특성
-        y_valid : 배열, 크기 = [n_samples]
-            훈련하는 동안 검증에 사용할 샘플 레이블
-        
-        반환값
+        """ Learn weights from training data.
+
+        Parameters
+        -----------
+        X_train : array, shape = [n_examples, n_features]
+            Input layer with original features.
+        y_train : array, shape = [n_examples]
+            Target class labels.
+        X_valid : array, shape = [n_examples, n_features]
+            Sample features for validation during training
+        y_valid : array, shape = [n_examples]
+            Sample labels for validation during training
+
+        Returns:
         ----------
         self
+
         """
-        n_output = np.unique(y_train).shape[0]
+        n_output = np.unique(y_train).shape[0]  # number of class labels
         n_features = X_train.shape[1]
-        
-        ############
-        # 가중치 초기화
-        ############
-        
-        # 입력층 -> 은닉층 사이의 가중치
-        
+
+        ########################
+        # Weight initialization
+        ########################
+
+        # weights for input -> hidden
+        self.b_h = np.zeros(self.n_hidden)
+        self.w_h = self.random.normal(loc=0.0, scale=0.1,
+                                      size=(n_features, self.n_hidden))
+
+        # weights for hidden -> output
+        self.b_out = np.zeros(n_output)
+        self.w_out = self.random.normal(loc=0.0, scale=0.1,
+                                        size=(self.n_hidden, n_output))
+
+        epoch_strlen = len(str(self.epochs))  # for progress formatting
+        self.eval_ = {'cost': [], 'train_acc': [], 'valid_acc': []}
+
+        y_train_enc = self._onehot(y_train, n_output)
+
+        # iterate over training epochs
+        for i in range(self.epochs):
+
+            # iterate over minibatches
+            indices = np.arange(X_train.shape[0])
+
+            if self.shuffle:
+                self.random.shuffle(indices)
+
+            for start_idx in range(0, indices.shape[0] - self.minibatch_size +
+                                   1, self.minibatch_size):
+                batch_idx = indices[start_idx:start_idx + self.minibatch_size]
+
+                # forward propagation
+                z_h, a_h, z_out, a_out = self._forward(X_train[batch_idx])
+
+                ##################
+                # Backpropagation
+                ##################
+
+                # [n_examples, n_classlabels]
+                delta_out = a_out - y_train_enc[batch_idx]
+
+                # [n_examples, n_hidden]
+                sigmoid_derivative_h = a_h * (1. - a_h)
+
+                # [n_examples, n_classlabels] dot [n_classlabels, n_hidden]
+                # -> [n_examples, n_hidden]
+                delta_h = (np.dot(delta_out, self.w_out.T) *
+                           sigmoid_derivative_h)
+
+                # [n_features, n_examples] dot [n_examples, n_hidden]
+                # -> [n_features, n_hidden]
+                grad_w_h = np.dot(X_train[batch_idx].T, delta_h)
+                grad_b_h = np.sum(delta_h, axis=0)
+
+                # [n_hidden, n_examples] dot [n_examples, n_classlabels]
+                # -> [n_hidden, n_classlabels]
+                grad_w_out = np.dot(a_h.T, delta_out)
+                grad_b_out = np.sum(delta_out, axis=0)
+
+                # Regularization and weight updates
+                delta_w_h = (grad_w_h + self.l2*self.w_h)
+                delta_b_h = grad_b_h  # bias is not regularized
+                self.w_h -= self.eta * delta_w_h
+                self.b_h -= self.eta * delta_b_h
+
+                delta_w_out = (grad_w_out + self.l2*self.w_out)
+                delta_b_out = grad_b_out  # bias is not regularized
+                self.w_out -= self.eta * delta_w_out
+                self.b_out -= self.eta * delta_b_out
+
+            #############
+            # Evaluation
+            #############
+
+            # Evaluation after each epoch during training
+            z_h, a_h, z_out, a_out = self._forward(X_train)
+
+            cost = self._compute_cost(y_enc=y_train_enc,
+                                      output=a_out)
+
+            y_train_pred = self.predict(X_train)
+            y_valid_pred = self.predict(X_valid)
+
+            train_acc = ((np.sum(y_train == y_train_pred)).astype(np.float) /
+                         X_train.shape[0])
+            valid_acc = ((np.sum(y_valid == y_valid_pred)).astype(np.float) /
+                         X_valid.shape[0])
+
+            sys.stderr.write('\r%0*d/%d | Cost: %.2f '
+                             '| Train/Valid Acc.: %.2f%%/%.2f%% ' %
+                             (epoch_strlen, i+1, self.epochs, cost,
+                              train_acc*100, valid_acc*100))
+            sys.stderr.flush()
+
+            self.eval_['cost'].append(cost)
+            self.eval_['train_acc'].append(train_acc)
+            self.eval_['valid_acc'].append(valid_acc)
+
+        return self
