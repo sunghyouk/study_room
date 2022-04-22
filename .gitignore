@@ -480,8 +480,10 @@ po/*~
 
 # custom added file types
 Deep_learning_from_scratch*/dataset/*.txt
+python_ML/aclImdb/*.*
+
+# Un - ignore if needed
+*.h5
 *.npy
 *.pkl
-
 *.csv
-python_ML/aclImdb/*.*
