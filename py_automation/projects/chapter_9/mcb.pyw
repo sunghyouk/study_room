@@ -12,5 +12,14 @@ import pyperclip
 
 mcbShelf = shelve.open('mcb')
 
+# 클립보드 내용 저장하기
+if len(sys.argv) == 3 and sys.argv[1].lower() == 'save':
+    mcbShelf[sys.argv[2]] == pyperclip.paste()
+elif len(sys.argv) == 2:
+    # 키워드들을 나열하고 내용 불러오기
+    if sys.argv[1].lower() == 'list':
+        pyperclip.copy(str(list(mcbShelf.keys())))
+    elif sys.argv[1] in mcbShelf:
+        pyperclip.copy(mcbShelf[sys.argv[1]])
 
 mcbShelf.close()
