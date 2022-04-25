@@ -487,3 +487,4 @@ python_ML/aclImdb/*.*
 *.npy
 *.pkl
 *.csv
+python_ML/models/*
