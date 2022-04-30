@@ -6,7 +6,7 @@ import os
 import re
 import shutil
 
-# 미국식 날짜 표기 형식과 매칭하는 정규 표현식 작성
+# 미국식 날짜 표기 형식 (MM-DD-YYYY)과 매칭하는 정규 표현식 작성
 datePattern = re.compile(r"""^(.*?)  # 날짜 이전의 모든 텍스트
                          ((0|1)?\d)-  # 달에 해당하는 한 자리 또는 두 자리 숫자
                          ((0|1|2|3)?\d)-  # 날에 해당하는 한 자리 또는 두 자리 숫자
@@ -29,8 +29,14 @@ for amerFilename in os.listdir('.'):
     yearPart = mo.group(6)
     afterPart = mo.group(8)
 
-# TODO: 유럽식 파일 이름 생성
+# 유럽식 파일 이름 (DD-MM-YYYY) 생성
+euroFilename = beforePart + dayPart + '-' + monthPart + '-' + yearPart + afterPart
 
-# TODO: 전체 절대 경로들을 가져오기
+# 전체 절대 경로들을 가져오기
+absWorkingDir = os.path.abspath('.')
+amerFilename = os.path.join(absWorkingDir, amerFilename)
+euroFilename = os.path.join(absWorkingDir, euroFilename)
 
-# TODO: 파일 이름들을 변경하기
+# 파일 이름들을 변경하기
+print(f'Renaming "{amerFilename}" to "{euroFilename}"...')
+shutil.move(amerFilename, euroFilename)  # 테스트 후 주석을 실행 가능하도록 바꾸기
