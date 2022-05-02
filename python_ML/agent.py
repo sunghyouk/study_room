@@ -41,7 +41,6 @@ class Agent(object):
         # epsilon 조정
         self._adjust_epsilon()
 
-
-def _adjust_epsilon(self):
-    if self.epsilon > self.epsilon_min:
-        self.epsilon *= self.epsilon_decay
+    def _adjust_epsilon(self):
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
