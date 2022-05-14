@@ -1,3 +1,15 @@
 {
-    "python.pythonPath": "/Users/sunghyouk/opt/anaconda3/bin/python"
+    "python.pythonPath": "/Users/sunghyouk/opt/anaconda3/bin/python",
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "Postgre 14",
+            "database": "postgres",
+            "username": "postgres"
+        }
+    ]
 }
