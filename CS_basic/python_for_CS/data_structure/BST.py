@@ -57,7 +57,43 @@ class BST:
 
         return cur
 
-# TODO: def __remove_recursion
+    def __remove_recursion(self, cur, target):
+        # 대상 데이터가 트리 안에 없을 때
+        if cur is None:
+            return None, None
+
+        # 대상 데이터가 노드 데이터보다 작으면 -> 왼쪽 자식에서 대상 데이터를 가진 노드를 지운다.
+        elif target < cur.data:
+            cur.right, rem_node = self.__remove_recursion(cur.left, target)
+        # 대상 데이터가 노드 데이터보다 크면 -> 오른쪽 자식에서 대상 데이터를 가진 노드를 지운다.
+        elif target > cur.data:
+            cur.right, rem_node = self.__remove_recursion(cur.right, target)
+
+        # target == cur.data
+        else:
+            # 1. 리프 노드일 때
+            if not cur.left and not cur.right:
+                rem_node = cur
+                cur = None
+            # 2-1. 자식 노드가 왼쪽에 하나 있을 때
+            elif not cur.right:
+                rem_node = cur
+                cur = cur.left
+            # 2-2. 자식 노드가 오른쪽에 하나 있을 때
+            elif not cur.left:
+                rem_node = cur
+                cur = cur.right
+            # 3. 자식 노드가 두 개일 때
+            else:
+                # 4. 대체 노드를 찾는다.
+                replace = cur.left
+                while replace.right:
+                    replace = replace.right
+                # 5. 삭제 노드와 대체 노드의 값을 교환
+                cur.data, replace.data = replace.data, cur.data
+                # 6. 대체 노드를 삭제하면서 삭제된 노드를 반환
+                cur.left, rem_node = self.__remove_recursion(cur.left, replace.data)
+        return cur, rem_node
 
     def remove(self, target):
         self.root, removed_node = self.__remove_recursion(self.root, target)
