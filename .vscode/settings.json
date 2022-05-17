@@ -10,6 +10,16 @@
             "name": "Postgre 14",
             "database": "postgres",
             "username": "postgres"
+        },
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "Postgre 14",
+            "database": "population_and_accident",
+            "username": "postgres"
         }
     ]
 }
